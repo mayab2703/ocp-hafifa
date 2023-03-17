@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.frontend.name }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.frontend.appLabel }}
+  replicas: {{ .Values.frontend.replicaNum }}
+  template: 
+    metadata:
+      labels:
+        app: {{ .Values.frontend.appLabel }}
+    spec:
+      containers:
+      - name: "{{ .Release.Name }}-{{ .Values.frontend.name }}-container"
+        image: "{{ .Values.frontend.container.image }}:{{ .Values.frontend.container.tag }}"
+        ports:
+        - containerPort: {{ .Values.frontend.container.port }}
+        env:
+        - name: REACT_APP_HOST_IP
+          value: {{ .Values.backend.ingressIP }}

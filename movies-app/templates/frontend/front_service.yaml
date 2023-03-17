@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1     
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.frontend.name }}-service"
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.frontend.appLabel }}
+  ports:
+    - port: {{ .Values.frontend.servicePort }}
+      targetPort: {{ .Values.frontend.container.port }}
+  type: LoadBalancer

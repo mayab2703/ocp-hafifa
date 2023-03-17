@@ -1,0 +1,15 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+To get your frontend URL run the next command:
+  
+  $ kubectl get svc {{ .Release.Name }}-{{ .Values.frontend.name }}-service -n {{ .Values.namespace }}
+
+(beware it might take a few minutes for the external IP to show up)
+

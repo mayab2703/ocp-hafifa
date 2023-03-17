@@ -1,0 +1,33 @@
+namespace: movies-app
+
+backend:
+  name: backend
+  appLabel: backend
+  replicaNum: 1
+  container:
+    image: mayab273/movies-app
+    tag: backend3
+    port: 3000 ## must stay 3000 unless the image was changed
+  servicePort: 3000
+  ingressClassName: nginx
+  mongoPort: 27017
+  ingressIP: 51.104.167.169 
+
+frontend:
+  name: frontend
+  appLabel: frontend
+  replicaNum: 1
+  container:
+    image: mayab273/movies-app
+    tag: frontend3
+    port: 8000 ## must stay 8000 unless the image was changed
+  servicePort: 80
+
+global:
+  namespaceOverride: mongodb ## the namespace for the mongodb app to be created in
+  mongodb:
+    rootUser: admin
+    rootPassword: password
+    service:
+      nameOverride: mongodb-service
+ 

@@ -1,0 +1,24 @@
+apiVersion: v2
+name: movies-app
+description: A Helm chart for Kubernetes
+
+type: application
+
+version: 0.1.0
+
+appVersion: "1.16.0"
+dependencies:
+- name: mongodb
+  version: x.x.x
+  repository: "file://./charts/mongodb"
+#  import-values:
+#    - child: auth.rootUser 
+#      parent: mongodb.username
+#    - child: auth.rootPassword
+#      parent: mongodb.password
+
+- name: common
+  repository: https://charts.bitnami.com/bitnami
+  tags:
+    - bitnami-common
+  version: 2.x.x

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Values.backend.name }}-deployment"
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.appLabel }}
+  replicas: {{ .Values.backend.replicaNum }}
+  template: 
+    metadata:
+      labels:
+        app: {{ .Values.backend.appLabel }}
+    spec:
+      containers:
+      - name: "{{ .Release.Name }}-{{ .Values.backend.name }}-container"
+        image: "{{ .Values.backend.container.image }}:{{ .Values.backend.container.tag }}"
+        ports:
+        - containerPort: {{ .Values.backend.container.port }}
+        env:
+        - name: HOST_IP
+          value: "{{ .Values.global.mongodb.service.nameOverride }}.{{ .Values.global.namespaceOverride }}.svc.cluster.local"
+        - name: MONGODB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Release.Name }}-{{ .Values.backend.name }}-configmap"
+              key: mongoPort
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-{{ .Values.backend.name }}-secret"
+              key: username
+        - name: MONGO_PASS
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-{{ .Values.backend.name }}-secret"
+              key: password
+        - name: BACKEND_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: "{{ .Release.Name }}-{{ .Values.backend.name }}-configmap"
+              key: backendPort
