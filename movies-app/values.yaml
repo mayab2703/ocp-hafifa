@@ -16,7 +16,7 @@ backend:
 frontend:
   name: frontend
   appLabel: frontend
-  replicaNum: 1
+  replicaNum: 2
   container:
     image: mayab273/movies-app
     tag: frontend3
