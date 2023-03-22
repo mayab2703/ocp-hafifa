@@ -26,8 +26,21 @@ frontend:
 global:
   namespaceOverride: mongodb ## the namespace for the mongodb app to be created in
   mongodb:
-    rootUser: admin
-    rootPassword: password
+    rootUser: ""
+    rootPassword: ""
     service:
       nameOverride: mongodb-service
+  vault:
+    tokenName: vault-token
+    token: hvs.IbZdDfwE6XuZxImMwevSVLAI ## token to connect to vault
+    secretStoreName: vault-backend
+    url: http://20.105.123.33 
+    port: 8200 
+    kv:
+      path: movies-app
+      version: v2
+    secretName: mongo-credentials ## the secret object name in k8s to be used later in deployments
+    secretPath: movies-app/mongo-credentials ## secret path inside vault
+      
+    
  

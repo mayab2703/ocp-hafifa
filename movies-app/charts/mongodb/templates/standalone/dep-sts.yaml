@@ -205,12 +205,15 @@ spec:
                   key: mongodb-passwords
             {{- end }}
             - name: MONGODB_ROOT_USER
-              value: {{ .Values.global.mongodb.rootUser | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.vault.secretName }}
+                  key: username
             - name: MONGODB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "mongodb.secretName" . }}
-                  key: mongodb-root-password
+                  name: {{ .Values.global.vault.secretName }}
+                  key: password
             {{- end }}
             {{- if and .Values.metrics.enabled (not (empty .Values.metrics.username)) }}
             - name: MONGODB_METRICS_USERNAME
